@@ -679,7 +679,7 @@ const planets = [
   { name: "土星", symbol: "♄", domicile: ["摩羯", "水瓶"], detriment: ["巨蟹", "狮子"], exaltation: ["天秤"], fall: ["白羊"], cycle: "约29.5年", signRhythm: "约2.5年换座", cycleRank: 6 },
   { name: "天王星", symbol: "♅", cycle: "约84年", signRhythm: "约7年换座", cycleRank: 7 },
   { name: "海王星", symbol: "♆", cycle: "约165年", signRhythm: "约14年换座", cycleRank: 8 },
-  { name: "冥王星", symbol: "♇", cycle: "约248年", signRhythm: "约12到31年换座", cycleRank: 9 },
+  { name: "冥王星", symbol: "♇", cycle: "约248年", signRhythm: "平均约20年换座", cycleRank: 9 },
 ];
 
 const classicalPlanets = planets.filter((planet) => planet.domicile);
@@ -1223,7 +1223,7 @@ function signRhythmTemplate() {
   const planet = pick(planets);
   return {
     type: "换座周期",
-    prompt: `${maybeSymbolPlanet(planet)} 大约多久换一个星座？`,
+    prompt: `${maybeSymbolPlanet(planet)} 平均大约多久换一个星座？`,
     answer: planet.signRhythm,
     options: optionsWith(planet.signRhythm, planets.map((item) => item.signRhythm)),
   };
@@ -1365,7 +1365,7 @@ function receptionTemplate() {
   const sign = pick(signs);
   return {
     type: "接纳",
-    prompt: `${maybeSymbolPlanet(planet)} 落 ${maybeSymbolSign(sign, true)}，由谁接纳？`,
+    prompt: `${maybeSymbolPlanet(planet)} 落 ${maybeSymbolSign(sign, true)}，按星座守护星由谁接纳？`,
     answer: sign.ruler,
     options: optionsWith(sign.ruler, classicalPlanets.map((item) => item.name)),
   };
