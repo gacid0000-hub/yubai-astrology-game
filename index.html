@@ -584,7 +584,7 @@ p {
             <h2>解盘表达训练</h2>
             <p id="futureText">敬请期待。</p>
           </div>
-          <span id="futureBadge" class="lock-badge">LOCK</span>
+          <span id="futureBadge" class="lock-badge">SOON</span>
         </section>
       </section>
 
@@ -825,13 +825,8 @@ function renderMap() {
   const percent = Math.round(mastered);
   els.masteryText.textContent = `${percent}%`;
   els.masteryBar.style.width = `${Math.min(percent, 100)}%`;
-  if (percent >= 85) {
-    els.futureText.textContent = "敬请期待。";
-    els.futureBadge.textContent = "SOON";
-  } else {
-    els.futureText.textContent = "敬请期待。";
-    els.futureBadge.textContent = "LOCK";
-  }
+  els.futureText.textContent = "敬请期待。";
+  els.futureBadge.textContent = "SOON";
 }
 
 function startLevel(index, reviewOnly = false) {
