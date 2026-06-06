@@ -582,7 +582,7 @@ p {
           <div>
             <p class="label">下一章</p>
             <h2>解盘表达训练</h2>
-            <p id="futureText">第一章整体掌握度达到 85% 后解锁。</p>
+            <p id="futureText">敬请期待。</p>
           </div>
           <span id="futureBadge" class="lock-badge">LOCK</span>
         </section>
@@ -826,10 +826,10 @@ function renderMap() {
   els.masteryText.textContent = `${percent}%`;
   els.masteryBar.style.width = `${Math.min(percent, 100)}%`;
   if (percent >= 85) {
-    els.futureText.textContent = "已达到解锁线，下一版可以进入解盘表达训练。";
-    els.futureBadge.textContent = "READY";
+    els.futureText.textContent = "敬请期待。";
+    els.futureBadge.textContent = "SOON";
   } else {
-    els.futureText.textContent = "第一章整体掌握度达到 85% 后解锁。";
+    els.futureText.textContent = "敬请期待。";
     els.futureBadge.textContent = "LOCK";
   }
 }
