@@ -11,15 +11,16 @@
   --bg-strong: #eadbff;
   --ink: #2f2440;
   --muted: #786b89;
-  --line: rgba(103, 76, 130, 0.18);
-  --panel: rgba(255, 255, 255, 0.78);
+  --line: rgba(86, 62, 111, 0.16);
+  --panel: rgba(255, 255, 255, 0.72);
   --panel-strong: #ffffff;
-  --primary: #7b57c7;
-  --primary-deep: #55389a;
+  --primary: #7459aa;
+  --primary-deep: #4c367f;
   --gold: #b88735;
   --good: #2f9b72;
   --bad: #c5506a;
-  --shadow: 0 18px 60px rgba(82, 55, 126, 0.18);
+  --symbol-font: "Noto Sans Symbols 2", "Apple Symbols", "Segoe UI Symbol", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  --shadow: 0 16px 44px rgba(70, 43, 100, 0.15);
 }
 
 * {
@@ -30,12 +31,11 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.9) 0 2px, transparent 3px),
-    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.9) 0 1px, transparent 2px),
-    radial-gradient(circle at 18% 72%, rgba(255, 255, 255, 0.75) 0 1px, transparent 2px),
-    linear-gradient(145deg, #fbf8ff 0%, #efe3ff 42%, #dcc9fa 100%);
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.72), transparent 28%),
+    radial-gradient(circle at 86% 4%, rgba(247, 229, 255, 0.36), transparent 26%),
+    linear-gradient(145deg, #f9f3ff 0%, #e4d4f4 44%, #9875bd 100%);
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", "Hiragino Sans GB", sans-serif;
 }
 
 button {
@@ -77,7 +77,7 @@ button {
   position: relative;
   overflow: hidden;
   padding: 20px 22px 22px;
-  border-radius: 26px;
+  border-radius: 22px;
 }
 
 .kicker,
@@ -128,8 +128,9 @@ p {
 .result-card h1 {
   position: relative;
   margin: 7px 0 22px;
-  font-size: 34px;
-  line-height: 1.08;
+  font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+  font-size: 32px;
+  line-height: 1.12;
 }
 
 .mastery {
@@ -149,7 +150,7 @@ p {
   margin-top: 9px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(123, 87, 199, 0.12);
+  background: rgba(116, 89, 170, 0.12);
 }
 
 .mastery-bar span {
@@ -157,7 +158,7 @@ p {
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #a98be6, #7b57c7);
+  background: linear-gradient(90deg, #b499dc, #7459aa);
   transition: width 240ms ease;
 }
 
@@ -166,7 +167,7 @@ p {
 .weakness-card {
   margin-top: 16px;
   padding: 18px;
-  border-radius: 22px;
+  border-radius: 18px;
 }
 
 .section-title,
@@ -198,7 +199,7 @@ p {
   min-height: 112px;
   padding: 11px 8px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 14px;
   background: var(--panel-strong);
   color: var(--ink);
   text-align: left;
@@ -256,7 +257,7 @@ p {
   flex: 0 0 auto;
   padding: 7px 10px;
   border-radius: 999px;
-  background: #eee4ff;
+  background: #f0e7fb;
   color: var(--primary-deep);
   font-size: 12px;
   font-weight: 800;
@@ -295,10 +296,11 @@ p {
   height: 54px;
   place-items: center;
   border-radius: 50%;
-  background: var(--primary);
+  background: linear-gradient(145deg, #8d74bf, #604a98);
   color: white;
   font-size: 22px;
   font-weight: 900;
+  box-shadow: 0 10px 24px rgba(69, 45, 105, 0.18);
 }
 
 .timer.timer-danger {
@@ -325,8 +327,8 @@ p {
 .stats-row > div,
 .summary-grid > div {
   flex: 1;
-  padding: 12px 10px;
-  border-radius: 16px;
+  padding: 10px 9px;
+  border-radius: 12px;
   text-align: center;
 }
 
@@ -342,36 +344,38 @@ p {
   display: block;
   margin-top: 3px;
   color: var(--primary-deep);
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .question-card {
-  min-height: 158px;
-  padding: 24px 20px;
-  border-radius: 24px;
+  padding: 16px 18px 18px;
+  border-radius: 14px;
 }
 
 .question-card h3 {
-  margin: 12px 0 0;
-  font-size: clamp(23px, 8vw, 32px);
-  line-height: 1.25;
+  margin: 10px 0 0;
+  font-family: var(--symbol-font);
+  font-size: clamp(18px, 5.3vw, 21px);
+  font-weight: 800;
+  line-height: 1.42;
 }
 
 .answers {
   display: grid;
-  gap: 11px;
-  margin-top: 14px;
+  gap: 9px;
+  margin-top: 12px;
 }
 
 .answer-button {
-  min-height: 58px;
-  padding: 13px 16px;
+  min-height: 52px;
+  padding: 11px 15px;
   border: 1px solid rgba(85, 56, 154, 0.18);
-  border-radius: 18px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.92);
   color: var(--ink);
-  font-size: 18px;
-  font-weight: 800;
+  font-family: var(--symbol-font);
+  font-size: 15px;
+  font-weight: 780;
   text-align: left;
 }
 
@@ -390,7 +394,7 @@ p {
 .wheel-panel {
   margin-bottom: 14px;
   padding: 14px;
-  border-radius: 24px;
+  border-radius: 16px;
 }
 
 .is-hidden {
@@ -439,6 +443,7 @@ p {
 .wheel-item b {
   display: block;
   color: var(--primary-deep);
+  font-family: var(--symbol-font);
   font-size: 16px;
 }
 
@@ -454,7 +459,7 @@ p {
 
 .result-card {
   padding: 28px 22px;
-  border-radius: 26px;
+  border-radius: 22px;
   text-align: center;
 }
 
@@ -467,7 +472,7 @@ p {
 .quote-card {
   margin-top: 16px;
   padding: 18px 20px;
-  border-radius: 22px;
+  border-radius: 18px;
   text-align: center;
 }
 
@@ -689,6 +694,7 @@ const aspects = [
   { name: "六合", symbol: "⚹", degree: "60°", nature: "机会、协作、顺手" },
   { name: "四分相", symbol: "□", degree: "90°", nature: "摩擦、推动、压力" },
   { name: "三分相", symbol: "△", degree: "120°", nature: "流畅、天赋、支持" },
+  { name: "梅花相位", symbol: "⚻", degree: "150°", nature: "调整、错位、重新校准" },
   { name: "对分相", symbol: "☍", degree: "180°", nature: "拉扯、镜像、整合" },
 ];
 
