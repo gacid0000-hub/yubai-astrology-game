@@ -396,8 +396,8 @@ p {
   background: rgba(255, 255, 255, 0.92);
   color: var(--ink);
   font-family: var(--symbol-font);
-  font-size: 15px;
-  font-weight: 780;
+  font-size: 18px;
+  font-weight: 800;
   text-align: left;
 }
 
@@ -681,7 +681,7 @@ p {
     </main>
 
     <script>
-const STORAGE_KEY = "astroWheelDemoProgressV2";
+const STORAGE_KEY = "astroWheelDemoProgressV3";
 const ROUND_SECONDS = 60;
 
 const signs = [
@@ -723,6 +723,16 @@ const aspects = [
   { name: "对分相", symbol: "☍", degree: "180°", nature: "拉扯、镜像、整合" },
 ];
 
+const noCommonAspect = { key: "none", name: "无法形成常用相位", symbol: "无法形成常用相位", degree: "无法形成常用相位" };
+const signAspectByGap = new Map([
+  [0, aspects.find((aspect) => aspect.degree === "0°")],
+  [2, aspects.find((aspect) => aspect.degree === "60°")],
+  [3, aspects.find((aspect) => aspect.degree === "90°")],
+  [4, aspects.find((aspect) => aspect.degree === "120°")],
+  [5, aspects.find((aspect) => aspect.degree === "150°")],
+  [6, aspects.find((aspect) => aspect.degree === "180°")],
+]);
+
 const resultQuotes = [
   { text: "人法地，地法天，天法道，道法自然。", source: "老子《道德经》第二十五章" },
   { text: "仰观宇宙之大，俯察品类之盛。", source: "王羲之《兰亭集序》" },
@@ -751,12 +761,12 @@ const elementInfo = {
 };
 
 const levels = [
-  { id: "zodiacCompass", title: "星座罗盘", subtitle: "顺序 对宫 宫位", generator: zodiacCompassQuestion },
   { id: "symbolCards", title: "符号闪卡", subtitle: "星座 行星 相位", generator: symbolQuestion },
   { id: "natureElements", title: "性质与元素", subtitle: "模式 阴阳 四元素", generator: natureElementQuestion },
   { id: "planetClock", title: "行星时钟", subtitle: "周期 换座 快慢", generator: planetClockQuestion },
   { id: "rulersDignities", title: "守护与状态", subtitle: "守护 庙旺弱陷", generator: rulerDignityQuestion },
   { id: "receptions", title: "接纳互融", subtitle: "接纳 互融 判断", generator: receptionQuestion },
+  { id: "zodiacCompass", title: "星座罗盘", subtitle: "顺序 对宫 宫位 相位", generator: zodiacCompassQuestion },
 ];
 
 const els = {
@@ -852,7 +862,7 @@ function renderMap() {
     els.levelGrid.appendChild(button);
   });
 
-  const mastered = progress.levels.reduce((sum, level) => sum + (level.bestAccuracy || 0), 0) / levels.length;
+  const mastered = progress.levels.reduce((sum, level) => sum + levelMastery(level), 0) / levels.length;
   const percent = Math.round(mastered);
   els.masteryText.textContent = `${percent}%`;
   els.masteryBar.style.width = `${Math.min(percent, 100)}%`;
@@ -1079,6 +1089,16 @@ function accuracy(source) {
   return Math.round((source.correct / source.total) * 100);
 }
 
+function levelMastery(record = {}) {
+  if (!record.attempts) return 0;
+  const acc = record.bestAccuracy || 0;
+  const stars = record.bestStars || 0;
+  if (stars >= 3) return 100;
+  if (stars === 2) return Math.max(75, Math.min(89, acc));
+  if (stars === 1) return Math.max(45, Math.min(74, Math.round(acc * 0.75)));
+  return Math.min(40, Math.round(acc * 0.45));
+}
+
 function stars(count) {
   return "★".repeat(count) + "☆".repeat(3 - count);
 }
@@ -1124,8 +1144,29 @@ function wrongSignOptions(answer, predicate) {
   return optionsWith(answer, signs.filter((sign) => !predicate(sign)).map((sign) => sign.name));
 }
 
+function aspectKey(aspect) {
+  return aspect ? aspect.degree : noCommonAspect.key;
+}
+
+function aspectLabels(aspect) {
+  if (!aspect) return [noCommonAspect.name];
+  return [aspect.degree, aspect.name, aspect.symbol];
+}
+
+function aspectBetweenSigns(firstIndex, secondIndex) {
+  const gap = Math.min(mod(secondIndex - firstIndex), mod(firstIndex - secondIndex));
+  return signAspectByGap.get(gap) || null;
+}
+
+function aspectOptionsWith(answerAspect, answer) {
+  const answerKey = aspectKey(answerAspect);
+  const groups = [...aspects, null].filter((aspect) => aspectKey(aspect) !== answerKey);
+  const distractors = shuffle(groups).slice(0, 3).map((aspect) => pick(aspectLabels(aspect)));
+  return shuffle([answer, ...distractors]);
+}
+
 function zodiacCompassQuestion() {
-  return pick([sequenceQuestion, oppositeQuestion, houseQuestion, bossQuestion])();
+  return pick([sequenceQuestion, oppositeQuestion, signAspectQuestion, houseQuestion, bossQuestion])();
 }
 
 function sequenceQuestion() {
@@ -1316,6 +1357,21 @@ function oppositeQuestion() {
     prompt: `${maybeSymbolSign(sign, Math.random() < 0.45)} 的对宫是？`,
     answer,
     options: optionsWith(answer, signs.map((item) => item.name)),
+  };
+}
+
+function signAspectQuestion() {
+  const firstIndex = Math.floor(Math.random() * signs.length);
+  const secondIndex = Math.floor(Math.random() * signs.length);
+  const first = signs[firstIndex];
+  const second = signs[secondIndex];
+  const aspect = aspectBetweenSigns(firstIndex, secondIndex);
+  const answer = pick(aspectLabels(aspect));
+  return {
+    type: "星座间相位",
+    prompt: `${maybeSymbolSign(first)} 和 ${maybeSymbolSign(second)} 有可能形成什么相位？`,
+    answer,
+    options: aspectOptionsWith(aspect, answer),
   };
 }
 
